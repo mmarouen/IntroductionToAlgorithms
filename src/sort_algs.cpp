@@ -2,16 +2,19 @@
 #include <random>
 #include <iomanip>
 #include "algorithms/chap2.hpp"
+#include "algorithms/chap6.hpp"
 
 int main(int argc, char** argv)
 {
     bool merge_only = false;
     bool insertion_sort = true;
     bool merge_sort = false;
+    bool heap_sort = false;
     bool all = false;
     std::vector<std::string> all_args;
-    std::string msg = "Usage: ./sorter [merge | insertion_sort | merge_sort | -help | --h | help]";
+    std::string msg = "Usage: ./sorter [merge | insertion_sort | heap_sort | merge_sort | -help | --h | help]";
     msg += "\n- insertion_sort         (default setup) runs the insertion sort algorithm on a predefined vector";
+    msg += "\n- heap_sort              runs the heapsort algorithm";
     msg += "\n- merge_sort             runs the merge sort algorithm on a predefined vector";
     msg += "\n- merge                  runs the merge algorithm on a predefined vector";
     msg += "\n- all                    runs insertion sort and merge sort on a randomly generated vector and times execution for each";
@@ -22,9 +25,20 @@ int main(int argc, char** argv)
         merge_only = all_args[0] == "merge";
         insertion_sort = all_args[0] == "insertion_sort";
         merge_sort = all_args[0] == "merge_sort";
+        heap_sort = all_args[0] == "heap_sort";
         all = all_args[0] == "all";
     }
-    if(insertion_sort)
+    if(heap_sort)
+    {
+        std::vector<float> input_vec{16, 4, 10, 14, 7, 9, 3, 2, 8, 1};
+        Heap A;
+        A.vals = input_vec;
+        A.heap_size = 10;
+        std::cout << "Before heapify " << chap2::DisplayVector(input_vec, input_vec.size()) << std::endl;
+        chap6::MaxHeapify(A, 1);
+        std::cout << "After heapify " << chap2::DisplayVector(A.vals, input_vec.size()) << std::endl;
+    }
+    else if(insertion_sort)
     {
         std::vector<float> input_vec{100, 65, 34, 12, 9, -3};
         std::vector<float> left, right;
