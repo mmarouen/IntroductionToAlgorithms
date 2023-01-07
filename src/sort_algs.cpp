@@ -37,6 +37,13 @@ int main(int argc, char** argv)
         std::cout << "Before heapify " << chap2::DisplayVector(input_vec, input_vec.size()) << std::endl;
         chap6::MaxHeapify(A, 1);
         std::cout << "After heapify " << chap2::DisplayVector(A.vals, input_vec.size()) << std::endl;
+        std::vector<float> input_vec_{4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
+        Heap B;
+        B.vals = input_vec_;
+        B.heap_size = input_vec_.size();
+        std::cout << "Before building max heap " << chap2::DisplayVector(B.vals, input_vec_.size()) << std::endl;
+        chap6::BuildMaxHeap(B);
+        std::cout << "After building max heap " << chap2::DisplayVector(B.vals, input_vec_.size()) << std::endl;
     }
     else if(insertion_sort)
     {
