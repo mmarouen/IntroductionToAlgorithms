@@ -8,3 +8,6 @@ target_include_directories(sorter PUBLIC lib/include)
 
 add_executable(multiplier src/multiply_matrices.cpp lib/src/chap4.cpp lib/src/chap2.cpp)
 target_include_directories(multiplier PUBLIC lib/include)
+
+add_executable(data_structures src/data_structures.cpp lib/src/chap10.cpp lib/src/chap2.cpp)
+target_include_directories(data_structures PUBLIC lib/include)
