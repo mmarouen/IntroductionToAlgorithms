@@ -17,10 +17,14 @@ The user is of course free to add additional runnables.\
 The repository is broken down into chapters where each contains the algorithms that were presented within.\
 Whenever relevant a chapter exercice solutions are included as pdfs under the `exercices`folder.\
 The table of content below links the `header` files associated with each chapter along with the relevant `runnable` and a brief description of the algorithms implemented.
-Chapter | Runnable | Algorithms
---- | --- | --- |
-[Chapter2](lib/include/algorithms/chap2.hpp) | [sorter](src/sort_algs.cpp) | - Insert sort algorithm<br>- Merge sort algorithm
-[Chapter4](lib/include/algorithms/chap4.hpp) | [multiplier](src/multiply_matrices.cpp) | - Classical matrix multiplication<br>- Recursive matrix multiplication
+Chapter | Runnable | Algorithms | exercice solutions
+--- | --- | --- | --- |
+[Chapter2](lib/include/algorithms/chap2.hpp) | [sorter](src/sort_algs.cpp) | - Insert sort algorithm<br>- Merge sort algorithm | |
+[Chapter4](lib/include/algorithms/chap4.hpp) | [multiplier](src/multiply_matrices.cpp) | - Classical matrix multiplication<br>- Recursive matrix multiplication | |
+ |  | | - Initiatation to probabalistic algorithms | [Chapter5](exercices/chap5.pdf) |
+[Chapter6](lib/include/algorithms/chap6.hpp) | [sorter](src/sort_algs.cpp) | - Wider selection of sorting algorithms | [Chapter6](exercices/chap6.pdf) |
+[Chapter10](lib/include/algorithms/chap10.hpp) | [data_structures](src/data_structures.cpp) | - Chained lists<br>- Binary trees | |
+
 
 ## Prerequisites
 - `c++`
