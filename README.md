@@ -24,6 +24,7 @@ Chapter | Runnable | Algorithms | exercice solutions
  |  | | - Initiatation to probabalistic algorithms | [Chapter5](exercices/chap5.pdf) |
 [Chapter6](lib/include/algorithms/chap6.hpp) | [sorter](src/sort_algs.cpp) | - Wider selection of sorting algorithms | [Chapter6](exercices/chap6.pdf) |
 [Chapter10](lib/include/algorithms/chap10.hpp) | [data_structures](src/data_structures.cpp) | - Chained lists<br>- Binary trees | |
+[Chapter12](lib/include/algorithms/chap12.hpp) | [data_structures](src/bst_tester.cpp) | - Binary search trees | |
 
 
 ## Prerequisites
