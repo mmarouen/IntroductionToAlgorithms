@@ -14,3 +14,6 @@ target_include_directories(data_structures PUBLIC lib/include)
 
 add_executable(bst_tester src/bst_tester.cpp lib/src/chap12.cpp)
 target_include_directories(bst_tester PUBLIC lib/include)
+
+add_executable(dynamic_programming src/dynamic_programming.cpp lib/src/chap14.cpp)
+target_include_directories(dynamic_programming PUBLIC lib/include)
