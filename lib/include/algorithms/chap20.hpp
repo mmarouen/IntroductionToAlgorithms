@@ -57,6 +57,7 @@ class Graph
     inline int getIndex(int node_id){return node_to_index_[node_id];};
     inline int getSize() const {return number_of_nodes_;};
     ~Graph();
+    std::string PrintGraph();
     private:
     int number_of_nodes_;
     std::map<int, int> node_to_index_;
@@ -65,22 +66,34 @@ class Graph
 
 namespace chap20
 {
-    std::string PrintGraph(const Graph* graph);
+    
+
+    /**
+     * @brief color of the vertices throughout the BFS algorithm
+     * 
+     */
+    enum SearchAlg {
+        BFS=0,
+        DFS=1
+    };
 
     /**
      * @brief BFS implementation not using the color attribute and breaking as soon as all nodes are visited
      * 
      */
-    class BreadthFirstSearch
+    class GraphSearch
     {
         public:
-        BreadthFirstSearch(Graph* graph, int source_node);
+        GraphSearch(Graph* graph, int source_node, int search_alg=SearchAlg::BFS);
+        void BreadthFirstSearch(Graph* graph, int source_node);
+        void DepthFirstSearch(Graph* graph, int source_node);
         std::string PrintPath();
         private:
         std::vector<Vertex*> nodes_;
         int root_node_;
         std::set<int> visited_vertices_;
-
+        int search_algorithm_;
     };
+
 }
 #endif

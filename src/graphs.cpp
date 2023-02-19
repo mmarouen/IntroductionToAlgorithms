@@ -14,10 +14,14 @@ int main(int argc, char** argv)
         {1, 2}, {1, 5}, {2, 5}, {2, 4}, {2, 3},
         {4, 5}, {4, 3}
     };
+
     Graph graph(edges_vector, vertices);
-    std::string msg = chap20::PrintGraph(&graph);
-    std::cout << msg << std::endl;
-    chap20::BreadthFirstSearch bfs(&graph, root_node);
+    std::cout << graph.PrintGraph() << std::endl;
+
+    chap20::GraphSearch bfs(&graph, root_node, chap20::SearchAlg::BFS);
     std::cout << bfs.PrintPath() << std::endl;
+
+    chap20::GraphSearch dfs(&graph, root_node, chap20::SearchAlg::DFS);
+    std::cout << dfs.PrintPath() << std::endl;
     return 0;
 }
