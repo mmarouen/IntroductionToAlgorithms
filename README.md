@@ -24,8 +24,9 @@ Chapter | Runnable | Algorithms | exercice solutions
  |  | | - Initiatation to probabalistic algorithms | [Chapter5](exercices/chap5.pdf) |
 [Chapter6](lib/include/algorithms/chap6.hpp) | [sorter](src/sort_algs.cpp) | - Wider selection of sorting algorithms | [Chapter6](exercices/chap6.pdf) |
 [Chapter10](lib/include/algorithms/chap10.hpp) | [data_structures](src/data_structures.cpp) | - Chained lists<br>- Binary trees | |
-[Chapter12](lib/include/algorithms/chap12.hpp) | [data_structures](src/bst_tester.cpp) | - Binary search trees | |
-
+[Chapter12](lib/include/algorithms/chap12.hpp) | [bst_tester](src/bst_tester.cpp) | - Binary search trees | |
+[Chapter14](lib/include/algorithms/chap14.hpp) | [dynamic_programming](src/dynamic_programming.cpp) | - Dynamic programming naive implementations | |
+[Chapter20](lib/include/algorithms/chap20.hpp) | [graphs_tester](src/bst_tester.cpp) | - Graph data structure definition<br>- Breadth first search<br>- Depth first search |most exercices are answered in the implementations |
 
 ## Prerequisites
 - `c++`
