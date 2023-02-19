@@ -17,3 +17,7 @@ target_include_directories(bst_tester PUBLIC lib/include)
 
 add_executable(dynamic_programming src/dynamic_programming.cpp lib/src/chap14.cpp)
 target_include_directories(dynamic_programming PUBLIC lib/include)
+
+add_executable(graphs_tester src/graphs.cpp lib/src/chap20.cpp)
+target_include_directories(graphs_tester PUBLIC lib/include)
+

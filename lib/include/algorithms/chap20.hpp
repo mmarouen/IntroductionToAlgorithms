@@ -4,6 +4,11 @@
 #include <vector> // for std::copy
 #include <string>
 #include <iostream>
+#include <iomanip>
+#include <map>
+#include <sstream>
+#include <set>
+#include <algorithm>
 
 /**
  * @brief color of the vertices throughout the BFS algorithm
@@ -16,14 +21,24 @@ enum Color {
 };
 
 /**
- * @brief vertex definition
+ * @brief vertex definition.
+ * Below definition doesnt make use of the color attributes.
+ * The implementation of BFS doesnt as well making it a lighter version of
+ * the BFS algorithm.
  * 
  */
 struct Vertex{
     int value;
-    Color color=kBlack;
     float distance=1000;
     Vertex* next=nullptr;
+    Vertex* pred=nullptr;
+    std::string Print() const
+    {
+        std::stringstream stream;
+        stream << std::fixed << std::setprecision(2)
+               << "(value: " << value << ", dist: " << distance << ")";
+        return stream.str();
+    }
 };
 
 /**
@@ -35,24 +50,37 @@ typedef std::pair<int, int> Edge;
 class Graph
 {
     public:
-    int root_node_;
+    bool is_directed_;
     std::vector<Vertex*> adjacency_list_;
-    int graph_size_;
-    Graph(std::vector<Edge> edges_vector, int number_of_nodes);
+    std::vector<int> vertices_;
+    Graph(std::vector<Edge> edges_vector, std::vector<int> vertices, bool direction=false);
+    inline int getIndex(int node_id){return node_to_index_[node_id];};
+    inline int getSize() const {return number_of_nodes_;};
     ~Graph();
     private:
+    int number_of_nodes_;
+    std::map<int, int> node_to_index_;
     void setTailNode(int vertex_id, int tail_value);
 };
 
-/*
-struct Graph{
-    int root;
-    std::vector<Vertex> adjancency_list;
-};
-*/
 namespace chap20
 {
-    std::string PrintGraph(Graph graph);
-    std::string PrintVertex(Vertex* vertex);
+    std::string PrintGraph(const Graph* graph);
+
+    /**
+     * @brief BFS implementation not using the color attribute and breaking as soon as all nodes are visited
+     * 
+     */
+    class BreadthFirstSearch
+    {
+        public:
+        BreadthFirstSearch(Graph* graph, int source_node);
+        std::string PrintPath();
+        private:
+        std::vector<Vertex*> nodes_;
+        int root_node_;
+        std::set<int> visited_vertices_;
+
+    };
 }
 #endif
