@@ -45,7 +45,11 @@ struct Vertex{
  * @brief edge definition
  * 
  */
-typedef std::pair<int, int> Edge;
+struct Edge{
+    int first;
+    int second;
+    float weight;
+};
 
 class Graph
 {

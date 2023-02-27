@@ -165,20 +165,12 @@ namespace chap20
                     current_vertex = current_vertex->next;
                     continue;
                 }
-                if(!current_vertex->next)
-                {
-                    break;
-                }
                 parent_vertex = graph->adjacency_list_[graph->getIndex(current_index)];
-                if(!parent_vertex->next)
+                if(!current_vertex->next || !parent_vertex->next || visited_vertices_.size() == graph->getSize())
                 {
                     break;
                 }
                 current_vertex = parent_vertex->next;
-                if(visited_vertices_.size() == graph->getSize())
-                {
-                    break;
-                }
             }
             if(visited_vertices_.size() == graph->getSize())
             {
