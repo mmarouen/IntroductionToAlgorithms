@@ -4,6 +4,8 @@
 int main(int argc, char** argv)
 {
     // cutrod problem
+    std::cout << "######################" << std::endl;
+    std::cout << "Cut Rod" << std::endl;
     std::vector<int> prices{1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
     int cut_size = 10;
     std::vector<int> pieces;
@@ -22,15 +24,23 @@ int main(int argc, char** argv)
     {
         std::cerr << e.what() << '\n';
     }
-
     // longest common sequence
+    std::cout << "######################" << std::endl;
+    std::cout << "Longest common sequence" << std::endl;
     std::vector<std::string> sequence_x{"A", "B", "C", "B", "D", "A", "B"};
     std::vector<std::string> sequence_y{"B", "D", "C", "A", "B", "A"};
-    std::vector<std::vector<int>> lcs;
+    std::vector<std::vector<int>> lcs, paths;
     try
     {
-        chap14::LongestCommonSequence(sequence_x, sequence_y, lcs);
+        chap14::LongestCommonSequence(sequence_x, sequence_y, lcs, paths);
         std::cout << "longest sequence " << lcs[sequence_x.size()][sequence_y.size()] << std::endl;
+        std::vector<std::string> lcs_sequence = chap14::DisplayLCS(lcs, paths, sequence_x);
+        std::cout << "lcs sequence length " << lcs_sequence.size() << std::endl;
+        for(std::string s : lcs_sequence)
+        {
+            std::cout << s << ", ";
+        }
+        std::cout << std::endl;
     }
     catch(const std::exception& e)
     {
