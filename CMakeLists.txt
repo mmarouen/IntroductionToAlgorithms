@@ -26,3 +26,5 @@ target_include_directories(dp-exercices PUBLIC lib/include)
 add_executable(graphs_tester src/graphs.cpp lib/src/chap20.cpp)
 target_include_directories(graphs_tester PUBLIC lib/include)
 
+add_executable(greedy_algorithms src/greedy_algorithms.cpp lib/src/chap15.cpp)
+target_include_directories(greedy_algorithms PUBLIC lib/include)
