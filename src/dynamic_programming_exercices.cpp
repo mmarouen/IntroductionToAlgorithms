@@ -100,7 +100,7 @@ int main(int argc, char** argv)
     std::cout << std::endl;
     std::cout << "##################################################" << std::endl;
     std::cout << "##### Exercice 14.10 Planning an investment strategy ######" << std::endl;
-    std::cout << "Please check chap14 solutions pdf file"
+    std::cout << "Please check chap14 solutions pdf file";
 
 	return 0;
 }
