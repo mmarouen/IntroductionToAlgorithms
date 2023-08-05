@@ -25,7 +25,7 @@ Chapter | Runnable | Algorithms | exercice solutions
 [Chapter6](lib/include/algorithms/chap6.hpp) | [sorter](src/sort_algs.cpp) | - Wider selection of sorting algorithms | [Chapter6](exercices/chap6.pdf) |
 [Chapter10](lib/include/algorithms/chap10.hpp) | [data_structures](src/data_structures.cpp) | - Chained lists<br>- Binary trees | |
 [Chapter12](lib/include/algorithms/chap12.hpp) | [bst_tester](src/bst_tester.cpp) | - Binary search trees | |
-[Chapter14](lib/include/algorithms/chap14.hpp) | [dynamic_programming](src/dynamic_programming.cpp) | - Cutrod problem implementation<br> - Longest common sequence | - Exercice 14.2 Palindrom sequence<br> - Exercice 14.3 Shortest bitonic path|
+[Chapter14](lib/include/algorithms/chap14.hpp) | [dynamic_programming](src/dynamic_programming.cpp) | - Cutrod problem implementation<br> - Longest common sequence | - Exercice 14.2 Palindrom sequence<br> - Exercice 14.3 Shortest bitonic path <br> - Exercice 14.7 Viterbi algorithm <br> - Exercice 14.10 Optimal investment strategy|
 [Chapter15](lib/include/algorithms/chap25.hpp) | [greedy_algorithms](src/greedy_algorithms.cpp) | greedy algrithms and dynamic programming |- Activity selection problem<br> - Binary knapsack problen using dynamic programming  |
 [Chapter20](lib/include/algorithms/chap20.hpp) | [graphs_tester](src/bst_tester.cpp) | - Graph data structure definition<br>- Breadth first search<br>- Depth first search |most exercices are answered in the implementations |
 

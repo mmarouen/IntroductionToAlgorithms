@@ -30,13 +30,14 @@ enum Color {
 struct Vertex{
     int value;
     float distance=1000;
+    float edge_value=-1;
     Vertex* next=nullptr;
     Vertex* pred=nullptr;
     std::string Print() const
     {
         std::stringstream stream;
         stream << std::fixed << std::setprecision(2)
-               << "(value: " << value << ", dist: " << distance << ")";
+               << "(value: " << value << ", dist: " << distance << ", edge: " << edge_value << ")";
         return stream.str();
     }
 };
@@ -48,7 +49,7 @@ struct Vertex{
 struct Edge{
     int first;
     int second;
-    float weight;
+    float weight=10;
 };
 
 class Graph
@@ -58,14 +59,15 @@ class Graph
     std::vector<Vertex*> adjacency_list_;
     std::vector<int> vertices_;
     Graph(std::vector<Edge> edges_vector, std::vector<int> vertices, bool direction=false);
-    inline int getIndex(int node_id){return node_to_index_[node_id];};
+    inline int getIndex(int node_id) {return node_to_index_[node_id];};
     inline int getSize() const {return number_of_nodes_;};
     ~Graph();
     std::string PrintGraph();
+    Vertex* getVertex(int node_id) const;
     private:
     int number_of_nodes_;
     std::map<int, int> node_to_index_;
-    void setTailNode(int vertex_id, int tail_value);
+    void setTailNode(int vertex_id, int tail_value, float weight);
 };
 
 namespace chap20

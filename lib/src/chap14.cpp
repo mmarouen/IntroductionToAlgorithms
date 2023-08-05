@@ -1,18 +1,22 @@
-#include "../include/algorithms/chap14.hpp"
+#include "algorithms/chap14.hpp"
 #include <stdexcept>
 
 namespace chap14
 {
-    int CutRod(std::vector<int> prices, std::vector<int>& revenues, int n, std::vector<int>& pieces)
+    int CutRod(std::vector<int> prices, std::vector<int>& revenues, int n, std::vector<std::vector<int>>& pieces)
     {
         if(n == 0)
         {
             revenues[0] = 0;
-            pieces[0] = -1;
             return 0;
         }
+        if(n == 1)
+        {
+            revenues[1] = prices[0];
+            pieces[0].push_back(1);
+            return prices[0];
+        }
         int revenue = -1;
-        int optimal_index = -10;
         for(int i = 0; i < n; i++)
         {
             int revenue_i;
@@ -27,17 +31,24 @@ namespace chap14
             if(revenue_i > revenue)
             {
                 revenue = revenue_i;
-                pieces[n] = n - i;
+                revenues[n] = revenue;
+                std::vector<int> best_indices;
+                if(i == 0)
+                {
+                    best_indices.push_back(n - i);
+                }
+                else
+                {
+                    best_indices = pieces[i - 1];
+                    best_indices.push_back(n - i);
+                }
+                pieces[n - 1] = best_indices;
             }
-        }
-        if(n < prices.size())
-        {
-            revenues[n] = revenue;
         }
         return revenue;
     }
 
-    int MemoizedCutRod(std::vector<int> prices, int max_cut_size, std::vector<int>& pieces)
+    int MemoizedCutRod(std::vector<int> prices, int max_cut_size, std::vector<std::vector<int>>& pieces)
     {
         int n = max_cut_size;
         if(max_cut_size > prices.size())
@@ -48,8 +59,8 @@ namespace chap14
         {
             throw(std::runtime_error("Received a 0 max cut size. Minimum accepted size is 1"));
         }
-        std::vector<int> revenues(n, -1);
-        pieces.resize(n + 1, -1);
+        std::vector<int> revenues(n + 1, -1);
+        pieces.resize(n, std::vector<int>(0));
         return CutRod(prices, revenues, n, pieces);
     }
 
@@ -91,6 +102,37 @@ namespace chap14
                     paths[i][j] = Direction::Left;
                 }
             }
+        }
+    }
+
+    void LCS(std::vector<std::string> x_, std::vector<std::string> y_)
+    {
+        int m = x_.size() + 1;
+        int n = y_.size() + 1;
+        std::vector<std::vector<int>> lcs(m, std::vector<int>(n));
+
+        for(int i = 1; i < m; i++)
+        {
+            for(int j = 1; j < n; j++)
+            {
+                if(x_[i - 1] == y_[j - 1])
+                {
+                    lcs[i][j] = 1 + lcs[i - 1][j - 1];
+                }
+                else
+                {
+                    lcs[i][j] = std::max(lcs[i - 1][j], lcs[i][j - 1]);
+                }
+            }
+        }
+        std::cout << "printing lcs matrix" << std::endl;
+        for(int i = 0; i < m; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                std::cout << lcs[i][j] << " ";
+            }
+            std::cout << std::endl;
         }
     }
 
@@ -146,65 +188,158 @@ namespace chap14
     float BitonicWay(std::vector<std::pair<int, int>> input_points)
     {
         int n_points = input_points.size();
-        float path = 10;
+        float path = 10000;
+        std::string nodes_list_one_way;
         if(n_points < 4)
         {
-            //
+            nodes_list_one_way = "0 - 1 - 2";
+            std::cout << "nodes list one way " << nodes_list_one_way;
+            path = distanceTwoPoints(input_points[0], input_points[1])
+                 + distanceTwoPoints(input_points[2], input_points[1])
+                 + distanceTwoPoints(input_points[2], input_points[0]);
+                 return path;
+        }
+        std::pair<int, int> endpoint = input_points.back();   
+        std::pair<int, int> rootpoint = input_points[0];   
+        std::vector<int> one_way_path{0, 1};
+        int left_endpoint = 2;
+        int right_endpoint = 1;
+        path = distanceTwoPoints(input_points[0], input_points[1]) + distanceTwoPoints(input_points[0], input_points[2]);
+        // 2 leftmost points belong to the path
+        // additionally, the 3rd leftmost point belongs to the return way
+        // we also know that the last point and the one before it belongs to the path
+        // this means we can start searching from the 4th point onwards till the before last point
+        for(int i = 3; i < n_points - 2; i++)
+        {
+            if(i <= right_endpoint)
+            {
+                continue;
+            }
+            std::pair<int, int> current_endpoint = input_points[right_endpoint];
+            std::pair<int, int> current_l_endpoint = input_points[left_endpoint];
+            float current_cost = 1000;
+            int next_right_endpoint = -1;
+            int next_left_endpoint = -1;
+            for(int j = i; j < n_points - 1; j++)
+            {
+                int j_left_endpoint = left_endpoint;
+                if(j > right_endpoint + 1 && j - 1 != left_endpoint)
+                {
+                    j_left_endpoint = j - 1;
+                }
+                float cost_j = path + distanceTwoPoints(input_points[j], current_endpoint);
+                cost_j += distanceTwoPoints(input_points[j_left_endpoint], current_l_endpoint);
+                cost_j += distanceTwoPoints(input_points[j], endpoint) + distanceTwoPoints(input_points[j_left_endpoint], endpoint);
+                if(cost_j < current_cost)
+                {
+                    next_right_endpoint = j;
+                    current_cost = cost_j;
+                    next_left_endpoint = j_left_endpoint;
+                }
+            }
+            left_endpoint = next_left_endpoint;
+            right_endpoint = next_right_endpoint;
+            one_way_path.push_back(next_right_endpoint);
+            path += distanceTwoPoints(current_endpoint, input_points[right_endpoint]);
+            path += distanceTwoPoints(current_l_endpoint, input_points[left_endpoint]);
+        }
+        one_way_path.push_back(n_points - 1);
+        path += distanceTwoPoints(input_points[one_way_path.back()], endpoint);
+        std::cout << "display the one way path " << std::endl;
+        for(int i = 0; i < one_way_path.size(); i++)
+        {
+            std::pair<int, int> current_pt = input_points[one_way_path[i]];
+            std::cout << one_way_path[i] << ": (" << current_pt.first << ", " << current_pt.second << ") --> ";
+        }
+        std::cout << std::endl;
+        // compute total path
+        path = 0;
+        std::pair<int, int> left_end = input_points[0];
+        std::pair<int, int> right_end = input_points[0];
+        for(int i = 1; i < n_points; i++)
+        {
+            if(i == n_points - 1)
+            {
+                path += distanceTwoPoints(left_end, input_points[i]) + distanceTwoPoints(right_end, input_points[i]);
+            }
+            else if(std::find(one_way_path.begin(), one_way_path.end(), i) == one_way_path.end())
+            {
+                path += distanceTwoPoints(left_end, input_points[i]);
+                left_end = input_points[i];
+            }
+            else
+            {
+                path += distanceTwoPoints(right_end, input_points[i]);
+                right_end = input_points[i];
+            }
+        }
+        return path;
+    }
+
+    bool findVertex(int& next_vertex_ind, Vertex* current_vertex, Graph* graph, float sound)
+    {
+        bool result = false;
+        if(current_vertex->edge_value == sound)
+        {
+            next_vertex_ind = current_vertex->next->value;
+            result = true;
         }
         else
         {
-            std::map<int, BitonicNode> cost;
-            float path_value = distanceTwoPoints(input_points[0], input_points[1]) + distanceTwoPoints(input_points[2], input_points[1]);
-            float cost_value = path_value + distanceTwoPoints(input_points[n_points - 1], input_points[2]) + distanceTwoPoints(input_points[n_points - 1], input_points[0]);
-            cost[0] = {2, path_value, cost_value};
-            path_value = distanceTwoPoints(input_points[0], input_points[1]) + distanceTwoPoints(input_points[2], input_points[0]);
-            cost_value = path_value + distanceTwoPoints(input_points[n_points - 1], input_points[2]) + distanceTwoPoints(input_points[n_points - 1], input_points[1]);
-            cost[2] = {1, path_value, cost_value};
-            for(int i = 3; i < n_points - 1; i++)
+            Vertex* next_vertex = new Vertex;
+            next_vertex = current_vertex->next;
+            while(next_vertex)
             {
-                float cost_i = 100000;
-                int tail_i = -1;
-                float path_i = 1000;
-                for(int j = 0; j < i; j++)
+                if(next_vertex->edge_value == sound)
                 {
-                    if(j != 1)
-                    {
-                        float path_i_ = cost[j].path + distanceTwoPoints(input_points[i], input_points[j]);
-                        int tail_i_ = cost[j].tail;
-                        float cost_i_ = path_i_ + distanceTwoPoints(input_points[n_points - 1], input_points[tail_i_]) + distanceTwoPoints(input_points[n_points - 1], input_points[i]);
-                        if(j != i - 1)
-                        {
-                            path_i_ += distanceTwoPoints(input_points[cost[j].tail], input_points[i - 1]);
-                            cost_i_ = path_i_ + distanceTwoPoints(input_points[n_points - 1], input_points[i - 1]) + distanceTwoPoints(input_points[n_points - 1], input_points[i]);
-                            tail_i_ = i - 1;
-                        }
-                        if(cost_i_ < cost_i)
-                        {
-                            cost_i = cost_i_;
-                            tail_i = tail_i_;
-                            path_i = path_i_;
-                        }
-                        cost[j].path += distanceTwoPoints(input_points[i], input_points[cost[j].tail]);
-                        cost[j].cost_value = distanceTwoPoints(input_points[n_points - 1], input_points[i]) + distanceTwoPoints(input_points[n_points - 1], input_points[j]);
-                        cost[j].tail = i;
-                    }
+                    result = true;
+                    next_vertex_ind = next_vertex->next->value;
+                    break;
                 }
-                cost[i] = {tail_i, path_i, cost_i};
-            }
-            float minimal_path = 10000;
-            for (auto &[key, value]: cost)
-            {
-                float loop_closure = distanceTwoPoints(input_points[n_points - 1], input_points[cost[key].tail]) + distanceTwoPoints(input_points[n_points - 1], input_points[key]);
-                float path_ = cost[key].path + loop_closure;
-                if(path_ < minimal_path)
+                else
                 {
-                    minimal_path = path_;
+                    next_vertex = next_vertex->next;
                 }
-                cost[key] = {n_points - 1, path_, loop_closure};
             }
-            path = minimal_path;
         }
-        return path;
+        return result;
+    }
+
+    std::vector<int> ViterbiPath(Graph* graph, int root_node, std::vector<float> sequence_sounds)
+    {
+        std::cout << "Vector to find:" << std::endl;
+        for(float sound : sequence_sounds)
+        {
+            std::cout << sound << " ";
+        }
+        std::cout << std::endl;
+        std::vector<int> queue;
+        int i = 0;
+        Vertex* current_vertex = graph->getVertex(root_node);
+        float current_sound = sequence_sounds[i];
+        int next_vertex_ind = -1;
+        bool found_path = true;
+        while(queue.size() < sequence_sounds.size())
+        {
+            bool res = findVertex(next_vertex_ind, current_vertex, graph, sequence_sounds[i]);
+            if(res)
+            {
+                queue.push_back(current_vertex->value);
+                current_vertex = graph->getVertex(next_vertex_ind);
+                i += 1;
+            }
+            else
+            {
+                found_path = false;
+                queue.clear();
+                break;
+            }
+        }
+        if(next_vertex_ind > -1 && found_path)
+        {
+            queue.push_back(next_vertex_ind);
+        }
+       return queue;
     }
 
 }

@@ -1,4 +1,4 @@
-#include "../include/algorithms/chap20.hpp"
+#include "algorithms/chap20.hpp"
 
 Graph::Graph(std::vector<Edge> edges_vector, std::vector<int> vertices, bool direction):
     vertices_(vertices), is_directed_(direction)
@@ -16,10 +16,10 @@ Graph::Graph(std::vector<Edge> edges_vector, std::vector<int> vertices, bool dir
     }
     for(Edge edge : edges_vector)
     {
-        setTailNode(edge.first, edge.second);
+        setTailNode(edge.first, edge.second, edge.weight);
         if(!is_directed_)
         {
-            setTailNode(edge.second, edge.first);
+            setTailNode(edge.second, edge.first, edge.weight);
         }
     }
 }
@@ -33,13 +33,14 @@ Graph::~Graph()
     adjacency_list_.clear();
 }
 
-void Graph::setTailNode(int vertex_value, int tail_value)
+void Graph::setTailNode(int vertex_value, int tail_value, float weight)
 {
     Vertex* vertex = adjacency_list_[node_to_index_[vertex_value]];
     while(vertex->next != nullptr)
     {
         vertex = vertex->next;
     }
+    vertex->edge_value = weight;
     Vertex* vertex_ = new Vertex;
     vertex_->value = tail_value;
     vertex->next = vertex_;
@@ -58,6 +59,19 @@ std::string Graph::PrintGraph()
         msg += vertex->Print() + "/\n";
     }
     return msg;
+}
+
+Vertex* Graph::getVertex(int node_id) const
+{
+    auto vertex_it = std::find_if(adjacency_list_.begin(), adjacency_list_.end(), [&](const Vertex* vertex){return vertex->value == node_id;});
+    int index;
+    Vertex* vertex = new Vertex;
+    if(vertex_it != adjacency_list_.end())
+    {
+        index = vertex_it - adjacency_list_.begin();
+        vertex = adjacency_list_[index];
+    }
+    return vertex;
 }
 
 namespace chap20

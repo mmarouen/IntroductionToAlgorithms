@@ -1,13 +1,12 @@
 #ifndef CHAP_14_H
 #define CHAP_14_H
 #include <cmath>
-//#include <algorithm>
-#include "chap2.hpp"
 #include <stdexcept>
 #include <string>
 #include <iostream>
 #include <numeric>
 #include <map>
+#include "algorithms/chap20.hpp" // graph class
 
 namespace chap14
 {
@@ -28,7 +27,7 @@ namespace chap14
      * 
      * @return int
      */
-    int CutRod(std::vector<int> prices, std::vector<int>& revenues, int n, std::vector<int>& pieces);
+    int CutRod(std::vector<int> prices, std::vector<int>& revenues, int n, std::vector<std::vector<int>>& pieces);
 
     /**
      * @brief memoized version of the recursive cutrod method.
@@ -39,10 +38,12 @@ namespace chap14
      * @param pieces list of pieces index to use
      * @return int 
      */
-    int MemoizedCutRod(std::vector<int> prices, int max_cut_size, std::vector<int>& pieces);
+    int MemoizedCutRod(std::vector<int> prices, int max_cut_size, std::vector<std::vector<int>>& pieces);
 
     void LongestCommonSequence(std::vector<std::string> sequence_x, std::vector<std::string> sequence_y, std::vector<std::vector<int>>& lcs, std::vector<std::vector<int>>& paths);
     std::vector<std::string> DisplayLCS(std::vector<std::vector<int>> lcs, std::vector<std::vector<int>> paths, std::vector<std::string> sequence_x);
+
+    void LCS(std::vector<std::string> sequence_x, std::vector<std::string> sequence_y);
 
     /**
      * @brief Exercice 14.2
@@ -90,5 +91,38 @@ namespace chap14
      * @return float
      */
     float BitonicWay(std::vector<std::pair<int, int>> input_points);
+
+    /**
+     * @brief Exercice 14.7 a: Given a sequence of edge values and a root node, the algorithm
+     * returns the nodes list that fulfills the sequence, otherwise returns an empty vector
+     * 
+     * @param graph 
+     * @param root_node 
+     * @param sequence_sounds 
+     * @return std::vector<int> 
+     */
+    std::vector<int> ViterbiPath(Graph* graph, int root_node, std::vector<float> sequence_sounds);
+
+    bool findVertex(int& next_vertex_ind, Vertex* current_vertex, Graph* graph, float sound);
+
+    std::string inline PrintPath(std::vector<int> path)
+    {
+        std::string msg;
+        if(path.size() == 0)
+        {
+            msg = "Given sequence doesnt exist in the graph";
+        }
+        else
+        {
+            msg = "path:";
+            for(int node : path)
+            {
+                msg += std::to_string(node) + " ";
+            }
+        }
+        msg += "\n";
+        return msg;
+    }
+
 }
 #endif
