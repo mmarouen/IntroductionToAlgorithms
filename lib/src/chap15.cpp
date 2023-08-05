@@ -5,41 +5,15 @@ namespace chap15
 
     std::vector<int> ActivitySelectionDP(std::vector<Activity> activities)
     {
-        std::vector<int> optimal_activities_index;
-        std::vector<Activity> optimal_activities;
-        if(activities[1].s >= activities[0].f)
+        std::vector<int> optimal_activities_index{1};
+        int current_f = activities[0].f;
+        for(int i = 1; i < activities.size(); i++)
         {
-            optimal_activities_index.push_back(0 + 1);
-            optimal_activities_index.push_back(1 + 1);
-            optimal_activities.push_back(activities[0]);
-            optimal_activities.push_back(activities[1]);
-        }
-        else
-        {
-            optimal_activities_index.push_back(0 + 1);
-            optimal_activities.push_back(activities[0]);
-        }
-        int i = 2;
-        while(i < activities.size())
-        {
-            int current_end = optimal_activities.back().f;
-            int next_end = activities[i].f;
-            int j = 1;
-            bool found_next = activities[i].s >= current_end;
-            while(activities[i + j].f == next_end)
-            {
-                if(!found_next)
-                {
-                    found_next = activities[i + 1].s >= current_end;
-                }
-                j += 1;
-            }
-            if(found_next)
+            if(activities[i].s >= current_f)
             {
                 optimal_activities_index.push_back(i + 1);
-                optimal_activities.push_back(activities[i]);
+                current_f = activities[i].f;
             }
-            i += j;
         }
         return optimal_activities_index;
     }
